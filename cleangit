@@ -1,0 +1,14 @@
+#!/bin/sh
+
+CLEANGIT_PROFILE="${CLEANGIT_PROFILE:-default}"
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+CLEANGIT_HOME="$XDG_CONFIG_HOME/cleangit/profile/$CLEANGIT_PROFILE"
+mkdir -p "$CLEANGIT_HOME/.ssh"
+touch "$CLEANGIT_HOME/.gitconfig"
+
+docker run --rm -it \
+  -v "$CLEANGIT_HOME:/home/cleangit" \
+  -v "$PWD:/app" \
+  -w /app \
+  ghcr.io/albinodrought/cleangit \
+  git "$@"
